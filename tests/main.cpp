@@ -7,9 +7,10 @@
  */
 
 #include <cstdio>
-#include <httplib.h>
 #include <iostream>
 #include <string>
+
+#include <httplib.h>
 
 #include "test.hpp"
 #include "test_core.hpp"
