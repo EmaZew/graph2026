@@ -35,7 +35,7 @@ namespace ascii_codes {
 }  // namespace ascii_codes
 
 class TestSuite {
-public :
+ public:
     explicit TestSuite(const std::string& testSuiteName)
         : testSuiteName(testSuiteName) {
         std::cerr << "Starting test suite " << testSuiteName
@@ -169,7 +169,7 @@ public :
         }
     }
 
-private :
+ private:
     std::string testSuiteName;
     static size_t numFailedTests;
     static size_t totalNumTests;

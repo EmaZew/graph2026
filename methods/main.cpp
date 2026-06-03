@@ -4,15 +4,13 @@
  *
  * Файл с функцией main() для серверной части программы.
  */
-
+#include "methods.hpp"
 #include <cstdio>
 #include <iostream>
 #include <string>
 
 #include <httplib.h>
 #include <nlohmann/json.hpp>
-
-#include "methods.hpp"
 
 int main(int argc, char* argv[]) {
     // Порт по-умолчанию.
