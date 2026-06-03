@@ -1,0 +1,77 @@
+/*!
+ * @file doc/algorithms/topological_sort.dox
+ * @brief Документация алгоритма топологической сортировки.
+ */
+
+/**
+ * @page topological_sort Топологическая сортировка
+ *
+ * @section topological_sort_desc Описание
+ *
+ * Топологическая сортировка ориентированного графа — это линейный порядок
+ * его вершин, такой что для каждого ребра (u, v) вершина u предшествует
+ * вершине v в этом порядке. Топологическая сортировка существует тогда
+ * и только тогда, когда граф является ациклическим (DAG).
+ *
+ * Реализованный алгоритм использует поиск в глубину (DFS) с обнаружением
+ * циклов через три цвета вершин:
+ * - Белый (0) — вершина не посещена
+ * - Серый (1) — вершина в процессе обхода (находится в рекурсивном стеке)
+ * - Чёрный (2) — обработка вершины завершена
+ *
+ * Если при обходе встречается серая вершина, это означает наличие цикла,
+ * и алгоритм генерирует исключение std::runtime_error.
+ *
+ * Алгоритм основан на методе, описанном на
+ * http://e-maxx.ru/algo/topological_sort
+ *
+ * @section topological_sort_complexity Сложность
+ *
+ * - Время: O(V + E), где V — количество вершин, E — количество рёбер.
+ * - Память: O(V) для хранения цветов и результата.
+ *
+ * @section topological_sort_example Пример использования
+ *
+ * @code
+ * #include "topological_sort.hpp"
+ * #include "oriented_graph.hpp"
+ *
+ * graph::OrientedGraph g;
+ * g.AddVertex(1);
+ * g.AddVertex(2);
+ * g.AddVertex(3);
+ * g.AddEdge(1, 2);
+ * g.AddEdge(2, 3);
+ *
+ * auto result = graph::TopologicalSort(g);
+ * // result = [1, 2, 3]
+ * @endcode
+ *
+ * @section topological_sort_api HTTP API
+ *
+ * POST /TopologicalSort
+ *
+ * Входной JSON:
+ * @code
+ * {
+ *   "vertices": [1, 2, 3],
+ *   "edges": [[1, 2], [2, 3]]
+ * }
+ * @endcode
+ *
+ * Выходной JSON (успех):
+ * @code
+ * {
+ *   "status": "success",
+ *   "result": [1, 2, 3]
+ * }
+ * @endcode
+ *
+ * Выходной JSON (ошибка — обнаружен цикл):
+ * @code
+ * {
+ *   "status": "error",
+ *   "message": "Graph contains a cycle, topological sort is impossible"
+ * }
+ * @endcode
+ */

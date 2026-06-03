@@ -10,9 +10,9 @@
 
 #include <httplib.h>
 
-/**
- * @brief Набор тестов для класса graph::Graph.
- */
+ /**
+  * @brief Набор тестов для класса graph::Graph.
+  */
 void TestGraph();
 
 /**
@@ -32,7 +32,10 @@ void TestWeightedOrientedGraph();
 
 /* Сюда нужно добавить объявления тестовых функций. */
 
-
+/**
+ * @brief Набор тестов для алгоритма топологической сортировки.
+ */
+void TestTopologicalSort();
 
 /* Конец вставки. */
 
