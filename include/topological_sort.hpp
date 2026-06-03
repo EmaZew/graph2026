@@ -53,7 +53,8 @@ namespace graph {
                 else if (color[to] == 1) {
                     // Обнаружен цикл: нашли серую вершину
                     throw std::runtime_error(
-                        "Graph contains a cycle, topological sort is impossible");
+                        "Graph contains a cycle, "
+                        "topological sort is impossible");
                 }
             }
 

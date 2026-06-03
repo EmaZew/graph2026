@@ -3,23 +3,27 @@
  * @brief Тесты для алгоритма топологической сортировки.
  */
 
+#include <iostream>
+#include <random>
+#include <string>
+#include <unordered_map>
+#include <vector>
+
+#include "oriented_graph.hpp"
 #include "test.hpp"
 #include "test_core.hpp"
 #include "topological_sort.hpp"
-#include "oriented_graph.hpp"
-#include <vector>
-#include <unordered_map>
-#include <random>
-#include <string>
-#include <iostream>
 
 using graph::OrientedGraph;
 using graph::TopologicalSort;
 
 // Вспомогательная функция для проверки равенства
-static void CheckEqual(size_t actual, size_t expected, const std::string& msg) {
+static void CheckEqual(size_t actual, size_t expected,
+    const std::string& msg) {
     if (actual != expected) {
-        std::cerr << "FAIL: " << msg << " (Expected: " << expected << ", Got: " << actual << ")" << std::endl;
+        std::cerr << "FAIL: " << msg
+            << " (Expected: " << expected
+            << ", Got: " << actual << ")" << std::endl;
         throw std::runtime_error("Test failed");
     }
 }
@@ -87,7 +91,9 @@ void TestTopologicalSort() {
             CheckEqual(result.size(), 4, "MultipleSources size");
 
             std::unordered_map<size_t, size_t> pos;
-            for (size_t i = 0; i < result.size(); ++i) pos[result[i]] = i;
+            for (size_t i = 0; i < result.size(); ++i) {
+                pos[result[i]] = i;
+            }
 
             CheckTrue(pos[1] < pos[3], "MultipleSources 1<3");
             CheckTrue(pos[2] < pos[3], "MultipleSources 2<3");
@@ -121,7 +127,7 @@ void TestTopologicalSort() {
             g.AddVertex(3);
             g.AddEdge(1, 2);
             g.AddEdge(2, 3);
-            g.AddEdge(3, 1); // Цикл
+            g.AddEdge(3, 1);  // Цикл
 
             bool caught = false;
             try {
@@ -141,7 +147,9 @@ void TestTopologicalSort() {
             size_t n = size_dist(gen);
 
             OrientedGraph g;
-            for (size_t i = 0; i < n; ++i) g.AddVertex(i);
+            for (size_t i = 0; i < n; ++i) {
+                g.AddVertex(i);
+            }
 
             std::uniform_int_distribution<size_t> vertex_dist(0, n - 1);
             for (size_t attempt = 0; attempt < n * 3; ++attempt) {
@@ -156,7 +164,9 @@ void TestTopologicalSort() {
             CheckEqual(result.size(), n, "RandomDAG size");
 
             std::unordered_map<size_t, size_t> pos;
-            for (size_t i = 0; i < result.size(); ++i) pos[result[i]] = i;
+            for (size_t i = 0; i < result.size(); ++i) {
+                pos[result[i]] = i;
+            }
 
             for (const auto& v : g.Vertices()) {
                 for (const auto& to : g.Edges(v)) {
@@ -171,7 +181,6 @@ void TestTopologicalSort() {
     }
     catch (const std::exception& e) {
         std::cerr << "TEST FAILED: " << e.what() << std::endl;
-        // В рамках TestSuite можно просто выйти, если один тест упал
         throw;
     }
 }

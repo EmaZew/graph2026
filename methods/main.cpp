@@ -8,8 +8,10 @@
 #include <httplib.h>
 #include <iostream>
 #include <cstdio>
+#include <string>
 #include <nlohmann/json.hpp>
 #include "methods.hpp"
+
 
 int main(int argc, char* argv[]) {
     // Порт по-умолчанию.
@@ -57,8 +59,7 @@ int main(int argc, char* argv[]) {
 
             if (status == 0) {
                 res.status = 200;
-            }
-            else {
+            } else {
                 res.status = 400;
             }
             res.set_content(output.dump(), "application/json");
