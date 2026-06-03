@@ -6,10 +6,10 @@
  */
 
 #include <cstdio>
-#include <httplib.h>
 #include <iostream>
 #include <string>
 
+#include <httplib.h>
 #include <nlohmann/json.hpp>
 
 #include "methods.hpp"
@@ -62,8 +62,7 @@ int main(int argc, char* argv[]) {
 
             if (status == 0) {
                 res.status = 200;
-            }
-            else {
+            } else {
                 res.status = 400;
             }
             res.set_content(output.dump(), "application/json");

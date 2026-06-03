@@ -49,8 +49,7 @@ namespace graph {
             for (const auto& to : graph.Edges(v)) {
                 if (color[to] == 0) {
                     dfs(to);
-                }
-                else if (color[to] == 1) {
+                } else if (color[to] == 1) {
                     // Обнаружен цикл: нашли серую вершину
                     throw std::runtime_error(
                         "Graph contains a cycle, "
