@@ -5,14 +5,14 @@
  * Файл с функцией main() для клиентской части программы
  * (набора тестов).
  */
-#include "test.hpp"
-#include "test_core.hpp"
+#include <httplib.h>
+
 #include <cstdio>
 #include <iostream>
 #include <string>
 
-#include <httplib.h>
-
+#include "test.hpp"
+#include "test_core.hpp"
 int main(int argc, char* argv[]) {
     // Порт по-умолчанию.
     int port = 8080;
