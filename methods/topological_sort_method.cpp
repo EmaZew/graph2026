@@ -3,12 +3,14 @@
  * @brief Серверная часть алгоритма топологической сортировки.
  */
 
+#include <string>
+#include <vector>
+
+#include <nlohmann/json.hpp>
+
+#include "oriented_graph.hpp"
 #include "methods.hpp"
 #include "topological_sort.hpp"
-#include "oriented_graph.hpp"
-#include <nlohmann/json.hpp>
-#include <vector>
-#include <string>
 
 namespace graph {
 
@@ -28,7 +30,8 @@ namespace graph {
             if (input.contains("edges")) {
                 for (const auto& edge : input["edges"]) {
                     if (edge.is_array() && edge.size() >= 2) {
-                        graph.AddEdge(edge[0].get<size_t>(), edge[1].get<size_t>());
+                        graph.AddEdge(edge[0].get<size_t>(),
+                            edge[1].get<size_t>());
                     }
                 }
             }

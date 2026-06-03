@@ -177,7 +177,6 @@ void TestTopologicalSort() {
         }
 
         std::cout << "ALL TOPOLOGICAL SORT TESTS PASSED!" << std::endl;
-
     }
     catch (const std::exception& e) {
         std::cerr << "TEST FAILED: " << e.what() << std::endl;

@@ -36,9 +36,10 @@ namespace ascii_codes {
 
 class TestSuite {
 public:
-    explicit TestSuite(const std::string& testSuiteName) :
-        testSuiteName(testSuiteName) {
-        std::cerr << "Starting test suite " << testSuiteName << "..." << std::endl;
+    explicit TestSuite(const std::string& testSuiteName)
+        : testSuiteName(testSuiteName) {
+        std::cerr << "Starting test suite " << testSuiteName
+            << "..." << std::endl;
     }
 
     static int Status() {
@@ -63,7 +64,8 @@ public:
         else {
             std::streamsize prevPrecision = std::cerr.precision(2);
 
-            std::cerr << 100.0 * static_cast<double>(totalNumTests - numFailedTests) /
+            std::cerr << 100.0 *
+                static_cast<double>(totalNumTests - numFailedTests) /
                 static_cast<double>(totalNumTests)
                 << "% tests succeeded!" << std::endl
                 << esc << redColor << esc << bold
@@ -77,10 +79,11 @@ public:
     }
 
     ~TestSuite() {
-        std::cerr << "Test suite " << testSuiteName << " finished." << std::endl;
+        std::cerr << "Test suite " << testSuiteName
+            << " finished." << std::endl;
     }
 
-    template<typename Test>
+    template <typename Test>
     void RunTest(Test test, const std::string& testName) {
         using ascii_codes::esc;
         using ascii_codes::greenColor;
@@ -101,8 +104,10 @@ public:
             std::cerr << esc << greenColor << "[OK]" << esc << defaultColor
                 << "   Test " << testName << " passed! ("
                 << static_cast<double>(
-                    std::chrono::duration_cast<std::chrono::milliseconds>(
-                        finish - start).count()) / 1000.0 << "s)" << std::endl;
+                    std::chrono::duration_cast<
+                    std::chrono::milliseconds>(finish - start).count()) /
+                1000.0
+                << "s)" << std::endl;
 
             std::lock_guard<std::mutex> locker(statsMutex);
 
@@ -121,8 +126,9 @@ public:
         }
     }
 
-    template<typename Test>
-    void RunTest(httplib::Client* cli, Test test, const std::string& testName) {
+    template <typename Test>
+    void RunTest(httplib::Client* cli, Test test,
+        const std::string& testName) {
         using ascii_codes::esc;
         using ascii_codes::greenColor;
         using ascii_codes::redColor;
@@ -142,8 +148,10 @@ public:
             std::cerr << esc << greenColor << "[OK]" << esc << defaultColor
                 << "   Test " << testName << " passed! ("
                 << static_cast<double>(
-                    std::chrono::duration_cast<std::chrono::milliseconds>(
-                        finish - start).count()) / 1000.0 << "s)" << std::endl;
+                    std::chrono::duration_cast<
+                    std::chrono::milliseconds>(finish - start).count()) /
+                1000.0
+                << "s)" << std::endl;
 
             std::lock_guard<std::mutex> locker(statsMutex);
 
@@ -169,9 +177,9 @@ private:
     static std::mutex statsMutex;
 };
 
-template<typename Arg>
-void Require(const Arg& arg, const char* argName,
-    const char* fileName, int line) {
+template <typename Arg>
+void Require(const Arg& arg, const char* argName, const char* fileName,
+    int line) {
     using ascii_codes::esc;
     using ascii_codes::redColor;
     using ascii_codes::defaultColor;
@@ -181,20 +189,17 @@ void Require(const Arg& arg, const char* argName,
     if (!arg) {
         std::ostringstream reason;
 
-        reason << esc << redColor << esc << bold
-            << "ERROR: "
-            << esc << defaultColor << esc << normal
-            << fileName << ":" << line << " "
-            << argName << "(" << arg << ") equals to false!";
+        reason << esc << redColor << esc << bold << "ERROR: "
+            << esc << defaultColor << esc << normal << fileName << ":" << line
+            << " " << argName << "(" << arg << ") equals to false!";
 
         throw std::runtime_error(reason.str());
     }
 }
 
-template<typename Left, typename Right>
-void RequireEqual(const Left& left, const Right& right,
-    const char* leftName, const char* rightName,
-    const char* fileName, int line) {
+template <typename Left, typename Right>
+void RequireEqual(const Left& left, const Right& right, const char* leftName,
+    const char* rightName, const char* fileName, int line) {
     using ascii_codes::esc;
     using ascii_codes::redColor;
     using ascii_codes::defaultColor;
@@ -204,22 +209,19 @@ void RequireEqual(const Left& left, const Right& right,
     if (left != right) {
         std::ostringstream reason;
 
-        reason << esc << redColor << esc << bold
-            << "ERROR: "
-            << esc << defaultColor << esc << normal
-            << fileName << ":" << line << " "
-            << leftName << " != " << rightName
+        reason << esc << redColor << esc << bold << "ERROR: "
+            << esc << defaultColor << esc << normal << fileName << ":" << line
+            << " " << leftName << " != " << rightName
             << "  (" << left << " != " << right << ")!";
 
         throw std::runtime_error(reason.str());
     }
 }
 
-template<typename FloatingPointType>
+template <typename FloatingPointType>
 void RequireClose(FloatingPointType left, FloatingPointType right,
-    FloatingPointType tolerance,
-    const char* leftName, const char* rightName,
-    const char* fileName, int line) {
+    FloatingPointType tolerance, const char* leftName,
+    const char* rightName, const char* fileName, int line) {
     using ascii_codes::esc;
     using ascii_codes::redColor;
     using ascii_codes::defaultColor;
@@ -230,23 +232,18 @@ void RequireClose(FloatingPointType left, FloatingPointType right,
         std::max(std::fabs(left), std::fabs(right)) * tolerance) {
         std::ostringstream reason;
 
-        reason << esc << redColor << esc << bold
-            << "ERROR: "
-            << esc << defaultColor << esc << normal
-            << fileName << ":" << line << " "
-            << leftName << " != " << rightName
+        reason << esc << redColor << esc << bold << "ERROR: "
+            << esc << defaultColor << esc << normal << fileName << ":" << line
+            << " " << leftName << " != " << rightName
             << "  (" << left << " != " << right << ")!";
 
         throw std::runtime_error(reason.str());
     }
 }
 
-template<typename ActionType, typename ExceptionType>
-void RequireThrow(ActionType action,
-    const char* actionName,
-    const char* exceptionName,
-    const char* fileName,
-    int line) {
+template <typename ActionType, typename ExceptionType>
+void RequireThrow(ActionType action, const char* actionName,
+    const char* exceptionName, const char* fileName, int line) {
     using ascii_codes::esc;
     using ascii_codes::redColor;
     using ascii_codes::defaultColor;
@@ -265,12 +262,10 @@ void RequireThrow(ActionType action,
     if (exceptionThrown == false) {
         std::ostringstream reason;
 
-        reason << esc << redColor << esc << bold
-            << "ERROR: "
-            << esc << defaultColor << esc << normal
-            << fileName << ":" << line << " "
-            << "Action " << actionName
-            << " didn't throw " << exceptionName << "!";
+        reason << esc << redColor << esc << bold << "ERROR: "
+            << esc << defaultColor << esc << normal << fileName << ":" << line
+            << " Action " << actionName << " didn't throw " << exceptionName
+            << "!";
 
         throw std::runtime_error(reason.str());
     }
@@ -288,15 +283,8 @@ void RequireThrow(ActionType action,
 #define REQUIRE_CLOSE(left, right, tolerance) \
   RequireClose(left, right, tolerance, #left, #right, __FILE__, __LINE__)
 
-#define REQUIRE_THROW(action, ExceptionType)                                  \
-  RequireThrow<std::function<void(void)>, ExceptionType>(                     \
-    [&]() {                                                                   \
-      action;                                                                 \
-    },                                                                        \
-    #action,                                                                  \
-    #ExceptionType,                                                           \
-    __FILE__,                                                                 \
-    __LINE__                                                                  \
-  )
+#define REQUIRE_THROW(action, ExceptionType)                                 \
+  RequireThrow<std::function<void(void)>, ExceptionType>(                    \
+      [&]() { action; }, #action, #ExceptionType, __FILE__, __LINE__)
 
 #endif  // TESTS_TEST_CORE_HPP_

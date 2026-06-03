@@ -5,13 +5,14 @@
  * Файл с функцией main() для серверной части программы.
  */
 
+#include <cstdio>
 #include <httplib.h>
 #include <iostream>
-#include <cstdio>
 #include <string>
-#include <nlohmann/json.hpp>
-#include "methods.hpp"
 
+#include <nlohmann/json.hpp>
+
+#include "methods.hpp"
 
 int main(int argc, char* argv[]) {
     // Порт по-умолчанию.
@@ -20,8 +21,9 @@ int main(int argc, char* argv[]) {
     if (argc >= 2) {
         // Меняем порт по умолчанию, если предоставлен соответствующий
         // аргумент командной строки.
-        if (std::sscanf(argv[1], "%d", &port) != 1)
+        if (std::sscanf(argv[1], "%d", &port) != 1) {
             return -1;
+        }
     }
 
     std::cerr << "Listening on port " << port << "..." << std::endl;
@@ -48,7 +50,8 @@ int main(int argc, char* argv[]) {
             catch (const std::exception& e) {
                 nlohmann::json error_output;
                 error_output["status"] = "error";
-                error_output["message"] = std::string("Invalid JSON: ") + e.what();
+                error_output["message"] = std::string("Invalid JSON: ") +
+                    e.what();
                 res.status = 400;
                 res.set_content(error_output.dump(), "application/json");
                 return;
@@ -59,7 +62,8 @@ int main(int argc, char* argv[]) {
 
             if (status == 0) {
                 res.status = 200;
-            } else {
+            }
+            else {
                 res.status = 400;
             }
             res.set_content(output.dump(), "application/json");
@@ -67,8 +71,8 @@ int main(int argc, char* argv[]) {
 
     /* Конец вставки. */
 
-    // Эта функция запускает сервер на указанном порту. Программа не завершится
-    // до тех пор, пока сервер не будет остановлен.
+    // Эта функция запускает сервер на указанном порту. Программа не
+    // завершится до тех пор, пока сервер не будет остановлен.
     svr.listen("0.0.0.0", port);
 
     return 0;
